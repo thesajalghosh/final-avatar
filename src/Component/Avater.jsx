@@ -397,8 +397,8 @@ const Avater = () => {
                      left-1/2 md:left-16 transform -translate-x-1/2 w-[90%] md:w-auto
                      md:mt-4"
               onClick={async () => {
-                // await startSession();
-                // handlePlayVideo();
+                await startSession();
+                handlePlayVideo();
                 setInitialModal(false)
                 // handleFullscreen()
               }}
