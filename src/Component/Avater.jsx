@@ -397,8 +397,8 @@ const Avater = () => {
                      left-1/2 md:left-16 transform -translate-x-1/2 w-[90%] md:w-auto
                      md:mt-4"
               onClick={async () => {
-                await startSession();
-                handlePlayVideo();
+                // await startSession();
+                // handlePlayVideo();
                 setInitialModal(false)
                 // handleFullscreen()
               }}
@@ -479,7 +479,7 @@ const Avater = () => {
                   />
                 </div>
               </div> */}
-              <div className="flex-1 overflow-y-auto p-4 h-[59vh]">
+              <div className="flex-1 overflow-y-auto p-4 h-[56vh]">
                 {messages.map((message, index) => (
                   <>
                     {message?.text && (
