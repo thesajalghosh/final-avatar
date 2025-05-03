@@ -24,8 +24,8 @@ const Avater = () => {
   const [isAvatarTalking, setIsAvatarTalking] = useState(false)
   const [interactionCount, setInteractionCount] = useState(0)
   const [messages, setMessages] = useState([
-    { text: "Hello! How can I assist you today?", sender: "ai" },
-    { text: "Hi! I need some help.", sender: "user" },
+    { text: "", sender: "" },
+    { text: "", sender: "" },
   ])
   const [currentAiMessage, setCurrentAiMessage] = useState('')
   const [currentUserMessage, setCurrentUserMessage] = useState('')
@@ -264,6 +264,27 @@ const Avater = () => {
     setChatMode(mode); // Updates the mode state
   };
 
+  // const handleInnitalFunction = async ()=>{
+  //   if (!avatar.current) {
+  //     setDebug("Avatar API not initialized");
+  //     return;
+  //   }
+
+  //   await avatar.current
+  //     .speak({
+  //       text: "Hi", 
+  //       taskType: TaskType.TALK,
+  //       taskMode: TaskMode.SYNC
+  //     })
+  //     .catch((e) => {
+  //       setDebug(e.message); // Error handling
+  //     });
+  // }
+
+  // useEffect(()=>{
+  //   handleInnitalFunction()
+  // },[])
+
 
   // this code for handle timeout of not use the avator
   useEffect(() => {
@@ -310,8 +331,6 @@ const Avater = () => {
     }
   }, [timeElapsedKeypress])
 
-  console.log("timeElapsed", timeElapsed)
-  console.log("timeElapsedKeypress", timeElapsedKeypress)
 
   function processTextWithUrls(text) {
     // Match either:
@@ -409,7 +428,7 @@ const Avater = () => {
       <div className="min-h-screen flex md:items-center justify-center bg-gray-100 p-2 md:p-6">
         <div className="flex flex-col md:flex-row overflow-hidden max-w-4xl w-full gap-1 md:gap-5">
           {/* Left side: Image */}
-          <div className="md:w-1/3 flex justify-center items-center md:p-6 bg-[#005443] rounded-2xl md:rounded-3xl">
+          <div className="md:w-1/3 flex justify-center items-center mt-[55px] lg:mt-0 md:p-6 bg-[#005443] rounded-2xl md:rounded-3xl">
             <video
               ref={mediaStream}
               autoPlay
