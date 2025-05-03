@@ -282,7 +282,7 @@ const Avater = () => {
   }, [isAvatarTalking, isUserTalking])
 
   useEffect(() => {
-    if (timeElapsed >= 15) {
+    if (timeElapsed >= 60) {
       endSession();
       window.location.reload()
     }
@@ -304,11 +304,14 @@ const Avater = () => {
   }, [isAvatarTalking, text])
 
   useEffect(() => {
-    if (timeElapsedKeypress >= 15) {
+    if (timeElapsedKeypress >= 60) {
       endSession();
       window.location.reload()
     }
   }, [timeElapsedKeypress])
+
+  console.log("timeElapsed", timeElapsed)
+  console.log("timeElapsedKeypress", timeElapsedKeypress)
 
   function processTextWithUrls(text) {
     // Match either:
@@ -328,7 +331,7 @@ const Avater = () => {
           url = 'https://' + url;
         }
 
-        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-500 underline">${displayText.trim()}</a>`;
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-500 underline">${url}</a>`;
       }
 
       // Handle plain URLs
@@ -347,24 +350,13 @@ const Avater = () => {
       return `<a href="${cleanedUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-500 underline">${cleanedUrl}</a>`;
     });
   }
-  const handleFullscreen = () => {
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent); // Detect mobile devices
-  
-    if (isMobile) {
-      const elem = document.documentElement;
-  
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.webkitRequestFullscreen) {
-        elem.webkitRequestFullscreen(); // Safari
-      } else if (elem.msRequestFullscreen) {
-        elem.msRequestFullscreen(); // IE11
-      }
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  };
+  }, [messages]);
 
-
-  console.log("currentAiMessageRef", currentAiMessageRef)
 
   return (
     <>
@@ -386,8 +378,8 @@ const Avater = () => {
                      left-1/2 md:left-16 transform -translate-x-1/2 w-[90%] md:w-auto
                      md:mt-4"
               onClick={async () => {
-                // await startSession();
-                // handlePlayVideo();
+                await startSession();
+                handlePlayVideo();
                 setInitialModal(false)
                 // handleFullscreen()
               }}
