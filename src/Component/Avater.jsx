@@ -386,8 +386,8 @@ const Avater = () => {
                      left-1/2 md:left-16 transform -translate-x-1/2 w-[90%] md:w-auto
                      md:mt-4"
               onClick={async () => {
-                await startSession();
-                handlePlayVideo();
+                // await startSession();
+                // handlePlayVideo();
                 setInitialModal(false)
                 // handleFullscreen()
               }}
@@ -436,7 +436,7 @@ const Avater = () => {
 
           {/* Right side: Chatbot Info */}
           <div className="md:w-2/3 flex flex-col justify-between gap-1 md:gap-3 h[30vh]">
-            <div className='bg-[#005443] rounded-2xl p-3 pt-6 pb-8 md:p-6 shadow-lg min-h-[50vh] md:min-h-[60vh]'>
+            <div className='bg-[#005443] rounded-2xl p-3 pt-2 pb-0 md:p-6 shadow-lg min-h-[50vh] md:min-h-[60vh]'>
               {/* <h2 className="text-2xl font-semibold mb-4 text-center">
                 Meet <span className="text-orange-500">{'{Ai Chatbot Name}'}</span>,
                 <br /> your very own AI concierge, <br /> ready to assist
@@ -468,7 +468,7 @@ const Avater = () => {
                   />
                 </div>
               </div> */}
-              <div className="flex-1 overflow-y-auto p-4 h-[60vh]">
+              <div className="flex-1 overflow-y-auto p-4 h-[59vh]">
                 {messages.map((message, index) => (
                   <>
                     {message?.text && (
@@ -499,11 +499,13 @@ const Avater = () => {
             </div>
 
             {/* Footer buttons */}
-            <div className="p-3 flex items-center justify-between bg-[#005443] m-2 md:m-0 rounded-2xl fixed bottom-0 left-0 w-[96vw] md:w-full md:relative md:w-auto">
+            <div className="p-3 flex items-center
+             justify-between bg-[#005443] m-2 md:m-0 
+             rounded-2xl fixed bottom-0 left-0 w-[96vw] md:w-full md:relative md:w-auto">
             <input
                 type="text"
                 placeholder="Type your message..."
-                className="flex-1 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg py-2 px-4 mr-2 focus:outline-none"
+                className="flex-1 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg py-2 px-4 mr-6 focus:outline-none"
                 onChange={handleInputChange}
                 onKeyDown={handleKeyPress}
                 value={text}
