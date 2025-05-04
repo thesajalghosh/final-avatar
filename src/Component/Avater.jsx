@@ -358,7 +358,6 @@ const Avater = () => {
   }, [messages]);
 
 
-  console.log("isAvatarTalking", isAvatarTalking)
   return (
     <>
       {initialModal && <div className="fixed inset-0 bg-black bg-opacity-100 flex items-center justify-center z-50">
