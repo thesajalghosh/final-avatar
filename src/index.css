@@ -16,7 +16,12 @@ code {
     monospace;
 }
 html, body {
-  height: 100%;
-  overflow: hidden; /* Prevents scrolling */
-  touch-action: manipulation; /* Improves touch behavior */
+  height: 100dvh;
+  overflow: hidden;
+  /* touch-action: manipulation;  */
+}
+@supports not (height: 100dvh) {
+  html, body {
+    height: calc(100vh - env(safe-area-inset-top)); /* Fallback for older browsers */
+  }
 }

@@ -230,6 +230,7 @@ const Avater = () => {
 
   // Handles sending the text input to the avatar
   async function handleSpeak() {
+    console.log("calll....")
     setIsLoadingRepeat(true); // Shows loading state
     if (!avatar.current) {
       setDebug("Avatar API not initialized");
@@ -264,26 +265,6 @@ const Avater = () => {
     setChatMode(mode); // Updates the mode state
   };
 
-  // const handleInnitalFunction = async ()=>{
-  //   if (!avatar.current) {
-  //     setDebug("Avatar API not initialized");
-  //     return;
-  //   }
-
-  //   await avatar.current
-  //     .speak({
-  //       text: "Hi", 
-  //       taskType: TaskType.TALK,
-  //       taskMode: TaskMode.SYNC
-  //     })
-  //     .catch((e) => {
-  //       setDebug(e.message); // Error handling
-  //     });
-  // }
-
-  // useEffect(()=>{
-  //   handleInnitalFunction()
-  // },[])
 
 
   // this code for handle timeout of not use the avator
@@ -377,6 +358,7 @@ const Avater = () => {
   }, [messages]);
 
 
+  console.log("isAvatarTalking", isAvatarTalking)
   return (
     <>
       {initialModal && <div className="fixed inset-0 bg-black bg-opacity-100 flex items-center justify-center z-50">
@@ -424,11 +406,10 @@ const Avater = () => {
 
         )
       }
-
       <div className="min-h-screen flex md:items-center justify-center bg-gray-100 p-2 md:p-6">
         <div className="flex flex-col md:flex-row overflow-hidden max-w-4xl w-full gap-1 md:gap-5">
           {/* Left side: Image */}
-          <div className="md:w-1/3 flex justify-center items-center mt-[55px] lg:mt-0 md:p-6 bg-[#005443] rounded-2xl md:rounded-3xl">
+          <div className="md:w-1/3 flex justify-center items-center mt-[6.5vh] md:mt-0 md:p-6 bg-[#005443] rounded-2xl md:rounded-3xl">
             <video
               ref={mediaStream}
               autoPlay
@@ -446,8 +427,8 @@ const Avater = () => {
           </div>
 
           {/* Right side: Chatbot Info */}
-          <div className="md:w-2/3 flex flex-col justify-between gap-1 md:gap-3 h[30vh]">
-            <div className='bg-[#005443] rounded-2xl p-3 pt-2 pb-0 md:p-6 shadow-lg min-h-[50vh] md:min-h-[60vh]'>
+          <div className="md:w-2/3 flex flex-col justify-between gap-1 md:gap-3">
+            <div className='bg-[#005443] rounded-2xl p-3 pt-2 pb-0 md:p-6 shadow-lg min-h-[59vh] md:min-h-[60vh]'>
               {/* <h2 className="text-2xl font-semibold mb-4 text-center">
                 Meet <span className="text-orange-500">{'{Ai Chatbot Name}'}</span>,
                 <br /> your very own AI concierge, <br /> ready to assist
@@ -479,7 +460,7 @@ const Avater = () => {
                   />
                 </div>
               </div> */}
-              <div className="flex-1 overflow-y-auto p-4 h-[56vh]">
+              <div className="flex-1 overflow-y-auto p-4">
                 {messages.map((message, index) => (
                   <>
                     {message?.text && (
@@ -516,14 +497,16 @@ const Avater = () => {
             <input
                 type="text"
                 placeholder="Type your message..."
-                className="flex-1 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg py-2 px-4 mr-6 focus:outline-none"
+                className="flex-1 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg py-2 px-4 mr-2 focus:outline-none"
                 onChange={handleInputChange}
                 onKeyDown={handleKeyPress}
                 value={text}
 
               />
-             <button className="text-blue-500 text-2xl mr-2" disabled={!isAvatarTalking} onClick={() => handleSpeak()}>
-                <FiSend />
+             <button className="text-blue-500 text-2xl mr-3 h-10 w-10 bg-black rounded-full p-2 flex items-center justify-center"
+              disabled={isAvatarTalking} onClick={() => handleSpeak()}
+              >
+                <FiSend size={30} color={"white"}/>
               </button>
              {<button className={`text-blue-500 text-2xl`}
                 onClick={() => {

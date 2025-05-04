@@ -3,7 +3,7 @@ import Avater from './Component/Avater';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App overflow-hidden h-full w-full">
 
       <Avater />
     </div>
