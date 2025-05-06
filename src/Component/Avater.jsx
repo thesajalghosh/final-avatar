@@ -43,6 +43,7 @@ const Avater = () => {
   const [text, setText] = useState("");
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [isLoadingRepeat, setIsLoadingRepeat] = useState(false);
+  const [firstRender, setFirstRender] = useState(false);
 
 
 
@@ -64,17 +65,22 @@ const Avater = () => {
     handleAccessToken();
 
     return () => {
-      endSession();
+      console.log("calll.. sajal")
+      if (firstRender) {
+        endSession();
+      }
+      setFirstRender(true)
     }
   }, [])
 
   async function endSession() {
     await avatar.current?.stopAvatar();
     avatar.current = null;
-    // mediaStream.current = null;
+    mediaStream.current = null;
     setStream(undefined);
     setIsAvatarTalking(false);
     setIsUserTalking(false);
+    localStorage.setItem("isAvatarTalking", false);
   }
 
   async function startSession() {
@@ -284,7 +290,7 @@ const Avater = () => {
   }, [isAvatarTalking, isUserTalking])
 
   useEffect(() => {
-    if (timeElapsed >= 60) {
+    if (timeElapsed >= 10) {
       endSession();
       window.location.reload()
     }
@@ -306,7 +312,7 @@ const Avater = () => {
   }, [isAvatarTalking, text])
 
   useEffect(() => {
-    if (timeElapsedKeypress >= 60) {
+    if (timeElapsedKeypress >= 10) {
       endSession();
       window.location.reload()
     }
@@ -356,7 +362,6 @@ const Avater = () => {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
-
 
   return (
     <>
@@ -493,7 +498,7 @@ const Avater = () => {
             <div className="p-3 flex items-center
              justify-between bg-[#005443] m-2 md:m-0 
              rounded-2xl fixed bottom-0 left-0 w-[96vw] md:w-full md:relative md:w-auto">
-            <input
+              <input
                 type="text"
                 placeholder="Type your message..."
                 className="flex-1 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg py-2 px-4 mr-2 focus:outline-none"
@@ -502,14 +507,14 @@ const Avater = () => {
                 value={text}
 
               />
-             <button className="text-blue-500 text-2xl mr-3 h-10 w-10 bg-black rounded-full p-2 flex items-center justify-center"
-              disabled={isAvatarTalking} onClick={() => handleSpeak()}
+              <button className="text-blue-500 text-2xl mr-3 h-10 w-10 bg-black rounded-full p-2 flex items-center justify-center"
+                disabled={isAvatarTalking} onClick={() => handleSpeak()}
               >
-                <FiSend size={30} color={"white"}/>
+                <FiSend size={30} color={"white"} />
               </button>
-             {<button className={`text-blue-500 text-2xl`}
+              {<button className={`text-blue-500 text-2xl`}
                 onClick={() => {
-                  handleChangeChatMode(chatMode === "text_mode" ?   "voice_mode" : "text_mode");
+                  handleChangeChatMode(chatMode === "text_mode" ? "voice_mode" : "text_mode");
                   setIsVoiceMode(!isVoiceMode);
                 }}
               >
