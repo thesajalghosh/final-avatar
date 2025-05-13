@@ -24,8 +24,8 @@ const Avater = () => {
   const [isAvatarTalking, setIsAvatarTalking] = useState(false)
   const [interactionCount, setInteractionCount] = useState(0)
   const [messages, setMessages] = useState([
-    { text: "what is your name", sender: "user" },
-    { text: "my name is sajal ghosh", sender: "ai" },
+    { text: "", sender: "" },
+    { text: "", sender: "" },
   ])
   const [currentAiMessage, setCurrentAiMessage] = useState('')
   const [currentUserMessage, setCurrentUserMessage] = useState('')
@@ -73,7 +73,7 @@ const Avater = () => {
 
           await endSession();
         })();
-        console.log("data", data)
+       
       }
       setFirstRender(true)
     }
@@ -436,7 +436,7 @@ const Avater = () => {
       <div className="min-h-screen flex md:items-center justify-center bg-black p-2 md:p-6">
         <div className="flex flex-col md:flex-row overflow-hidden max-w-4xl w-full gap-1 md:gap-5">
           {/* Left side: Image */}
-          <div className="md:w-1/3 flex justify-center items-center mt-[6.5vh] md:mt-0 md:p-6 bg-[#005443] rounded-2xl md:rounded-3xl">
+          <div className="md:w-1/3 flex justify-center items-center mt-[6.5vh] md:mt-0 md:p-6 bg-[#003327] rounded-2xl md:rounded-3xl">
             <video
               ref={mediaStream}
               autoPlay
@@ -454,40 +454,10 @@ const Avater = () => {
           </div>
 
           {/* Right side: Chatbot Info */}
+          <div className='text-white md:hidden mt-2 mb-2'>Chat History</div>
           <div className="md:w-2/3 flex flex-col justify-between gap-1 md:gap-3">
-            <div className='bg-[#005443] rounded-2xl p-3 pt-2 pb-0 md:p-6 shadow-lg min-h-[59vh] md:min-h-[60vh]'>
-              {/* <h2 className="text-2xl font-semibold mb-4 text-center">
-                Meet <span className="text-orange-500">{'{Ai Chatbot Name}'}</span>,
-                <br /> your very own AI concierge, <br /> ready to assist
-              </h2>
-
-              <div className="grid grid-cols-1 gap-3 mt-6">
-                <button className="bg-gray-100 hover:bg-gray-200 rounded-lg py-2 px-4 text-gray-700 text-left">
-                  Help me plan my Sonoma itinerary
-                </button>
-                <button className="bg-gray-100 hover:bg-gray-200 rounded-lg py-2 px-4 text-gray-700 text-left">
-                  How can I explore Sonoma like a local
-                </button>
-                <button className="bg-gray-100 hover:bg-gray-200 rounded-lg py-2 px-4 text-gray-700 text-left">
-                  Find restaurants or Insider Pass deals
-                </button>
-                <button className="bg-gray-100 hover:bg-gray-200 rounded-lg py-2 px-4 text-gray-700 text-left">
-                  Tell me about spas or outdoor spots
-                </button>
-                <button className="bg-gray-100 hover:bg-gray-200 rounded-lg py-2 px-4 text-gray-700 text-left">
-                  Show me wine tastings events
-                </button>
-
-                <div className="bg-gray-100 rounded-lg p-3 flex items-center justify-between">
-                  <span className="text-gray-700">Continue on phone: Scan QR</span>
-                  <img
-                    src="/your-qr-code-path.png"
-                    alt="QR Code"
-                    className="h-16 w-16"
-                  />
-                </div>
-              </div> */}
-              <div className="flex-1 overflow-y-auto p-4 h-[55vh] bg-gradient-to-b from-[#005443] to-[#005443] rounded-2xl shadow-lg">
+            <div className='bg-[#005443] rounded-2xl shadow-lg min-h-[50vh] md:min-h-[60vh]'>
+              <div className="flex-1 overflow-y-auto p-5 h-[60vh] md:h-[60vh] bg-gradient-to-b from-[#003327] to-[#000000] rounded-2xl">
                 {messages.map((message, index) => (
                   <>
                     {message?.text && (
@@ -529,7 +499,7 @@ const Avater = () => {
                 type="text"
                 placeholder="Ask me anything..."
                 disabled={isAvatarTalking}
-                className="flex-1 bg-[#018969] text-white placeholder-gray-200 text-[1.2rem] border border-gray-300 rounded-[50px] py-2 px-4 mr-2 focus:outline-none"
+                className="flex-1 bg-[#018969] w-[63vw] text-white placeholder-gray-200 text-[1.2rem] border border-gray-300 rounded-[50px] py-2 px-4 mr-2 focus:outline-none"
                 onChange={handleInputChange}
                 onKeyDown={handleKeyPress}
                 value={text}
