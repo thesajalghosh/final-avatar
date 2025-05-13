@@ -24,8 +24,8 @@ const Avater = () => {
   const [isAvatarTalking, setIsAvatarTalking] = useState(false)
   const [interactionCount, setInteractionCount] = useState(0)
   const [messages, setMessages] = useState([
-    { text: "", sender: "" },
-    { text: "", sender: "" },
+    { text: "what is your name", sender: "user" },
+    { text: "my name is sajal ghosh", sender: "ai" },
   ])
   const [currentAiMessage, setCurrentAiMessage] = useState('')
   const [currentUserMessage, setCurrentUserMessage] = useState('')
@@ -61,26 +61,42 @@ const Avater = () => {
       setAccessTokenLoading(false)
     }
   }
+
+  // this code for handle access token and start session
   useEffect(() => {
     handleAccessToken();
 
     return () => {
-      console.log("calll.. sajal")
+      // console.log("calll.. sajal")
       if (firstRender) {
-        endSession();
+        (async () => {
+
+          await endSession();
+        })();
+        console.log("data", data)
       }
       setFirstRender(true)
     }
   }, [])
 
   async function endSession() {
-    await avatar.current?.stopAvatar();
+    
+    try {
+      const res = await avatar.current?.stopAvatar();
+ 
+    } catch (error) {
+      console.log("error", error
+
+      )
+    }
     avatar.current = null;
     mediaStream.current = null;
     setStream(undefined);
     setIsAvatarTalking(false);
     setIsUserTalking(false);
     localStorage.setItem("isAvatarTalking", false);
+    setData(null);
+
   }
 
   async function startSession() {
@@ -148,7 +164,6 @@ const Avater = () => {
           return updatedMessages;
         });
 
-        console.log("MESSAGE", newMessage);
         setCurrentAiMessage(newMessage);
       }
     });
@@ -159,9 +174,9 @@ const Avater = () => {
       currentAiMessageRef.current = ""
     });
 
-    avatar.current.on(StreamingEvents.STREAM_DISCONNECTED, () => {
+    avatar.current.on(StreamingEvents.STREAM_DISCONNECTED, async () => {
       // console.log("Stream disconnected");
-      endSession();
+      await endSession();
     });
 
     avatar.current?.on(StreamingEvents.STREAM_READY, (event) => {
@@ -181,6 +196,7 @@ const Avater = () => {
         disableIdleTimeout: true,
       });
       setData(res);
+      // console.log("res", res)
       setMessages((prev) => [
         ...prev,
         { text: "How can I help you?", sender: "ai" },
@@ -236,7 +252,7 @@ const Avater = () => {
 
   // Handles sending the text input to the avatar
   async function handleSpeak() {
-    console.log("calll....")
+    // console.log("calll....")
     setIsLoadingRepeat(true); // Shows loading state
     if (!avatar.current) {
       setDebug("Avatar API not initialized");
@@ -290,8 +306,11 @@ const Avater = () => {
   }, [isAvatarTalking, isUserTalking])
 
   useEffect(() => {
-    if (timeElapsed >= 10) {
-      endSession();
+    if (timeElapsed >= 180) {
+      (async () => {
+
+        await endSession();
+      })()
       window.location.reload()
     }
   }, [timeElapsed])
@@ -312,8 +331,11 @@ const Avater = () => {
   }, [isAvatarTalking, text])
 
   useEffect(() => {
-    if (timeElapsedKeypress >= 10) {
-      endSession();
+    if (timeElapsedKeypress >= 180) {
+      (async () => {
+
+        await endSession();
+      })();
       window.location.reload()
     }
   }, [timeElapsedKeypress])
@@ -365,41 +387,42 @@ const Avater = () => {
 
   return (
     <>
-      {initialModal && <div className="fixed inset-0 bg-black bg-opacity-100 flex items-center justify-center z-50">
-        <div className="flex justify-center items-center w-[100%] lg:mt-20 md:mt-32">
-          <div className="bg-gradient-to-b from-gray-800 to-green-900 pb-4 md:rounded-[2rem] w-[100vw] h-[100vh] md:w-[300px]  md:h-full text-center">
-            <div className="bg-gradient-to-b from-[#2c2c2c] to-[#003d2e] md:rounded-[2rem]  mb-4 border-[#046C59] border-[0.5px] h-[80vh] md:h-[60vh]">
-              <img
-                src={avatorImage}
-                alt="Avatar"
-                className="rounded-[2rem] mx-auto h-[79vh] md:h-[60vh]"
-              />
+      {initialModal &&<>
+          <div className='fixed inset-0 bg-black bg-opacity-100 flex items-center justify-center z-50 h-[100vh]'>
+            <div class="flex justify-center items-center min-h-screen bg-black">
+              <div class="bg-gradient-to-b from-[#0f1a17] to-[#063c2e] rounded-[32px] shadow-lg max-w-xs w-full flex flex-col items-center">
+
+                <div className='border-[#046C59] border-[0.5px] mb-4 bg-gradient-to-b from-[#2c2c2c] to-[#003d2e] rounded-[32px]'>
+
+                  <img
+                    src={avatorImage}
+                    alt="Chat Person"
+                    class="rounded-[24px] w-full object-cover"
+                  />
+                </div>
+
+                <button
+                  onClick={async () => {
+                    await startSession();
+                    handlePlayVideo();
+                    setInitialModal(false)
+
+                  }}
+                  disabled={accessTokenLoading}
+                  class="mt-6 mb-6 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-6 rounded-full transition-colors w-full max-w-[200px]">
+                  {accessTokenLoading && <svg aria-hidden="true" role="status" className="inline w-6 h-6 me-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeWidth="2" d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB" />
+                    <path strokeWidth="2" d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor" />
+                  </svg>}
+                  Chat Now
+                </button>
+              </div>
             </div>
 
-            <button
-              className="bg-emerald-600 hover:bg-emerald-700 text-white
-                   px-6 py-3 rounded-md font-semibold mt-4
-                    md:mt-0 md:relative fixed bottom-4
-                     left-1/2 md:left-16 transform -translate-x-1/2 w-[90%] md:w-auto
-                     md:mt-4"
-              onClick={async () => {
-                await startSession();
-                handlePlayVideo();
-                setInitialModal(false)
-                // handleFullscreen()
-              }}
-              disabled={accessTokenLoading}
-            >
-              {accessTokenLoading && <svg aria-hidden="true" role="status" className="inline w-6 h-6 me-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path strokeWidth="2" d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB" />
-                <path strokeWidth="2" d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor" />
-              </svg>}
-              Chat Now
-            </button>
-          </div>
-        </div>
 
-      </div>}
+          </div>
+        </>
+      }
 
       {
         isLoadingSession && (
@@ -410,7 +433,7 @@ const Avater = () => {
 
         )
       }
-      <div className="min-h-screen flex md:items-center justify-center bg-gray-100 p-2 md:p-6">
+      <div className="min-h-screen flex md:items-center justify-center bg-black p-2 md:p-6">
         <div className="flex flex-col md:flex-row overflow-hidden max-w-4xl w-full gap-1 md:gap-5">
           {/* Left side: Image */}
           <div className="md:w-1/3 flex justify-center items-center mt-[6.5vh] md:mt-0 md:p-6 bg-[#005443] rounded-2xl md:rounded-3xl">
@@ -464,7 +487,7 @@ const Avater = () => {
                   />
                 </div>
               </div> */}
-              <div className="flex-1 overflow-y-auto p-4 h-[55vh]">
+              <div className="flex-1 overflow-y-auto p-4 h-[55vh] bg-gradient-to-b from-[#005443] to-[#005443] rounded-2xl shadow-lg">
                 {messages.map((message, index) => (
                   <>
                     {message?.text && (
@@ -473,11 +496,14 @@ const Avater = () => {
                         className={`mb-4 flex ${message.sender === "user" ? "justify-end" : "justify-start"
                           }`}
                       >
+                        <div>
+   {message.sender === "ai" && (<div className='text-white mb-2'>Dr. Gideon Kwok</div>)}
                         <div
                           className={`rounded-lg p-4 max-w-md ${message.sender === "user"
-                            ? "bg-green-200 text-black"
-                            : "bg-white text-gray-800"
+                            ? "bg-gradient-to-b from-[#018969] to-[#005642] text-white"
+                            : "bg-[#000000C4] text-white shadow-lg border border-[#005A4966] border-[#018969] shadow-[0_0_6px_#00ffc3]"
                             }`}
+                           
                         >
                           <div
                             dangerouslySetInnerHTML={{
@@ -485,6 +511,7 @@ const Avater = () => {
                             }}
                             className="text-[0.8rem] md:text-sm leading-relaxed"
                           ></div>
+                        </div>
                         </div>
                       </div>
                     )}
@@ -500,19 +527,20 @@ const Avater = () => {
              rounded-2xl fixed bottom-0 left-0 w-[96vw] md:w-full md:relative md:w-auto">
               <input
                 type="text"
-                placeholder="Type your message..."
-                className="flex-1 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg py-2 px-4 mr-2 focus:outline-none"
+                placeholder="Ask me anything..."
+                disabled={isAvatarTalking}
+                className="flex-1 bg-[#018969] text-white placeholder-gray-200 text-[1.2rem] border border-gray-300 rounded-[50px] py-2 px-4 mr-2 focus:outline-none"
                 onChange={handleInputChange}
                 onKeyDown={handleKeyPress}
                 value={text}
 
               />
-              <button className="text-blue-500 text-2xl mr-3 h-10 w-10 bg-black rounded-full p-2 flex items-center justify-center"
+              <button className="text-blue-500 text-2xl mr-3 h-10 w-10 bg-[#018969] rounded-full p-2 flex items-center justify-center"
                 disabled={isAvatarTalking} onClick={() => handleSpeak()}
               >
                 <FiSend size={30} color={"white"} />
               </button>
-              {<button className={`text-blue-500 text-2xl`}
+              {<button className={`text-blue-500 text-2xl  mr-3 h-10 w-10 bg-[#018969] rounded-full p-2 flex items-center justify-center`}
                 onClick={() => {
                   handleChangeChatMode(chatMode === "text_mode" ? "voice_mode" : "text_mode");
                   setIsVoiceMode(!isVoiceMode);
