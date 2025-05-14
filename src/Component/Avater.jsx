@@ -457,7 +457,7 @@ const Avater = () => {
           <div className='text-white md:hidden mt-2 mb-2'>Chat History</div>
           <div className="md:w-2/3 flex flex-col justify-between gap-1 md:gap-3">
             <div className='bg-black rounded-2xl shadow-lg min-h-[50vh] md:min-h-[60vh]'>
-              <div className="flex-1 overflow-y-auto p-5 mb-[60px] md:mb-0 h-[60vh] md:h-[60vh] bg-gradient-to-b from-[#003327] to-[#000000] rounded-2xl">
+              <div className="flex-1 overflow-y-auto p-5 mb-[60px] md:mb-0 h-[50vh] md:h-[60vh] bg-gradient-to-b from-[#003327] to-[#000000] rounded-2xl">
                 {messages.map((message, index) => (
                   <>
                     {message?.text && (
