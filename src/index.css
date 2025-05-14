@@ -19,7 +19,7 @@ code {
 }
 html, body {
   height: 100dvh;
-  overflow: hidden;
+  /* overflow: hidden; */
   /* touch-action: manipulation;  */
 }
 @supports not (height: 100dvh) {
