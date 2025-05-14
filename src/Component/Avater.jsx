@@ -403,8 +403,8 @@ const Avater = () => {
 
                 <button
                   onClick={async () => {
-                    // await startSession();
-                    // handlePlayVideo();
+                    await startSession();
+                    handlePlayVideo();
                     setInitialModal(false)
 
                   }}
