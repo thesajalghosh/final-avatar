@@ -18,8 +18,8 @@ code {
     monospace;
 }
 html, body {
-  height: 100dvh;
-  /* overflow: hidden; */
+  height: 100vh;
+  overflow: hidden;
   /* touch-action: manipulation;  */
 }
 @supports not (height: 100dvh) {
