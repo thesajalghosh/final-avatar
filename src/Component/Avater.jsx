@@ -51,8 +51,8 @@ const Avater = () => {
   const handleAccessToken = async () => {
     setAccessTokenLoading(true)
     try {
-      // const { data } = await axios.get("https://api.aiwellness.ai/api/v1/get_access_token/ABY2VmODFhZmVjYWRkNGMwZDliOWEyMWVmMDE4YWVmM2MtMTc0Mzg3MTA0NQ==")
-      const { data } = await axios.get("https://api.aiwellness.ai/api/v1/get_access_token/ABOWQ4YzkxOTNhNmFmNGU1Yzk3MWJjMGI4NDE4MDQ5ZDUtMTc0NzA0NTEwNg==")
+      const { data } = await axios.get("https://api.aiwellness.ai/api/v1/get_access_token/ABY2VmODFhZmVjYWRkNGMwZDliOWEyMWVmMDE4YWVmM2MtMTc0Mzg3MTA0NQ==")
+      // const { data } = await axios.get("https://api.aiwellness.ai/api/v1/get_access_token/ABOWQ4YzkxOTNhNmFmNGU1Yzk3MWJjMGI4NDE4MDQ5ZDUtMTc0NzA0NTEwNg==")
       if (data?.success) {
         setAccessToken(data?.data?.token)
       }
@@ -429,7 +429,7 @@ const Avater = () => {
 
       {
         isLoadingSession && (
-          <div className="absolute top-0 left-0 w-full h-[100vh] bg-black z-10 flex items-center justify-center">
+          <div className="absolute top-0 left-0 w-full h-[100vh] bg-black z-50 flex items-center justify-center">
             <div className="w-8 h-8 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
             <span className="text-sm text-emerald-600 ml-2">Loading...</span>
           </div>
@@ -443,7 +443,7 @@ const Avater = () => {
           <div
             className="
     w-full md:w-[45%] flex justify-center items-center md:p-6 md:bg-[#003327] rounded-2xl md:rounded-3xl
-    h-[30vh] md:min-h-[70vh]
+    h-[30vh] md:min-h-[70vh] fixed md:relative top-0 left-0 z-10
   "
           >
             <video
@@ -464,9 +464,9 @@ const Avater = () => {
           </div>
 
           {/* Right side: Chatbot Info */}
-          <div className='text-white md:hidden mt-2 mb-2'>Chat History</div>
+          <div className='text-white md:hidden mt-[37vh] mt-2 mb-2'>Chat History</div>
           <div className="md:w-[55%] flex flex-col justify-between gap-1 md:gap-3">
-            <div className='bg-black rounded-2xl shadow-lg min-h-[50vh] md:min-h-[60vh]'>
+            <div className='bg-black rounded-2xl shadow-lg min-h-[40vh] md:min-h-[60vh]'>
               <div className="flex-1 overflow-y-auto p-5 mb-[60px] md:mb-0 h-[50vh] md:h-[60vh] bg-gradient-to-b from-[#003327] to-[#000000] rounded-2xl">
                 {messages.map((message, index) => (
                   <>
